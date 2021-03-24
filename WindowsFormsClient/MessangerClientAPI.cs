@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -51,6 +52,17 @@ namespace MyMessanger_Stepik
       return null;
     }
 
+    public Message GetMessageRestSharp(int MessageId)
+    {
+      string ServiceUrl = "http://localhost:5000";
+      var client = new RestClient(ServiceUrl);
+      var request = new RestRequest("/api/Messanger/" + MessageId.ToString(), Method.GET);
+      IRestResponse<Message> Response = client.Execute<Message>(request);
+      string ResponseContent = Response.Content;
+      Message deserializedMsg = JsonConvert.DeserializeObject<Message>(ResponseContent);
+      return deserializedMsg;
+    }
+
     public async Task<Message> GetMessageHTTPAsync(int MessageId)
     {
       var responseString = await client.GetStringAsync("http://localhost:5000/api/Messanger/" + MessageId.ToString());
@@ -62,7 +74,38 @@ namespace MyMessanger_Stepik
       return null;
     }
 
-    public bool SendMessage(Message msg)
+    public bool SendMessageRestSharp(Message msg)
+    {
+      string ServiceUrl = "http://localhost:5000";
+      var client = new RestClient(ServiceUrl);
+      var request = new RestRequest("/api/Messanger", Method.POST);
+      // Json to post.
+      string jsonToSend = JsonConvert.SerializeObject(msg);
+      request.AddParameter("application/json; charset=utf-8", jsonToSend, ParameterType.RequestBody);
+      request.RequestFormat = DataFormat.Json;
+      bool ExitIsTrue = false;
+      try
+      {
+        client.ExecuteAsync(request, response =>
+        {
+          if (response.StatusCode == HttpStatusCode.OK)
+          {
+            ExitIsTrue = true;
+          }
+          else
+          {
+            ExitIsTrue = false;
+          }
+        });
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+      }
+      return ExitIsTrue;
+    }
+ 
+  public bool SendMessage(Message msg)
     {
       WebRequest request = WebRequest.Create("http://localhost:5000/api/Messanger");
       request.Method = "POST";
