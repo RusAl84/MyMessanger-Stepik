@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyMessanger-Stepik", "MyMessanger-Stepik.csproj", "{9E708A76-FEA1-4A37-BFA5-F1E474E0135D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleClient", "ConsoleClient.csproj", "{9E708A76-FEA1-4A37-BFA5-F1E474E0135D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPCoreServer", "..\ASPCoreServer\ASPCoreServer.csproj", "{A7322896-F9BD-425E-A497-381B4BB659B1}"
 EndProject
